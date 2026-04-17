@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>florbal.app – Kde a kdy se hraje</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #D62B2B;
+      --red-dark: #A01E1E;
+      --black: #111111;
+      --white: #FFFFFF;
+      --gray: #F4F4F2;
+      --gray-mid: #888780;
+      --gray-border: #E8E7E3;
+    }
+
+    body { font-family: 'Barlow', sans-serif; background: var(--white); color: var(--black); }
+
+    /* ── HEADER ── */
+    .site-header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 100;
+      background: rgba(17,17,17,0.96);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--red);
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 54px;
+    }
+
+    .logo {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--white);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-decoration: none;
+    }
+    .logo span { color: var(--red); }
+
+    .nav { display: flex; align-items: center; gap: 2rem; }
+    .nav a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: #ddd;
+      text-decoration: none;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      transition: color 0.15s;
+    }
+    .nav a:hover { color: var(--white); }
+
+    .btn-add {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: var(--red);
+      color: var(--white);
+      border: 2px solid var(--red);
+      padding: 7px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .btn-add:hover { background: transparent; color: var(--red); }
+
+    /* ── HERO ── */
+    .hero {
+      position: relative;
+      min-height: 520px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 0 3rem;
+      margin-top: 54px;
+      overflow: hidden;
+    }
+    .hero-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('hero.jpg') center/cover no-repeat;
+      filter: grayscale(80%);
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.5) 0%, rgba(10,10,10,0.88) 100%);
+    }
+
+    .hero-content {
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+      padding-top: 2rem;
+    }
+
+    .hero-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .hero h1 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 60px;
+      line-height: 0.95;
+      color: var(--white);
+      margin-bottom: 1.25rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .hero h1 em { color: var(--red); font-style: italic; }
+
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      border-left: 2px solid var(--red);
+      padding-left: 1rem;
+      max-width: 380px;
+    }
+
+    /* ── TILES ── */
+    .tiles {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .tile {
+      position: relative;
+      padding: 2rem;
+      border-radius: 16px;
+      cursor: pointer;
+      overflow: hidden;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tile:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,0.3); }
+    .tile:hover .tile-arrow { transform: translateX(5px); }
+
+    .tile-cr { background: var(--red); }
+    .tile-world { background: #1E1E1E; border: 1px solid #333; }
+
+    .tile-bg-text {
+      position: absolute;
+      top: 50%;
+      right: -0.5rem;
+      transform: translateY(-50%);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 80px;
+      line-height: 1;
+      color: rgba(255,255,255,0.07);
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .tile-icon { font-size: 28px; margin-bottom: 0.75rem; display: block; font-family: "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif; }
+
+    .tile-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.375rem;
+    }
+    .tile-cr .tile-tag { color: rgba(255,255,255,0.55); }
+    .tile-world .tile-tag { color: var(--red); }
+
+    .tile h2 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      line-height: 1;
+      color: var(--white);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .tile-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      transition: transform 0.2s;
+    }
+    .tile-arrow .material-symbols-outlined { font-size: 16px; }
+
+    /* ── FILTER STRIP ── */
+    .strip {
+      background: var(--white);
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      border-bottom: 1px solid var(--gray-border);
+      min-height: 52px;
+    }
+    .strip-inner {
+      max-width: 1200px;
+      width: 100%;
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 0 2rem;
+    }
+
+    .strip-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-right: 0.5rem;
+      white-space: nowrap;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 0.375rem;
+      align-items: center;
+    }
+
+    .filter-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--gray-border);
+      margin: 0 0.5rem;
+    }
+
+    .filter-btn {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--gray-border);
+      background: var(--white);
+      color: #555;
+      cursor: pointer;
+      transition: all 0.15s;
+      white-space: nowrap;
+    }
+    .filter-btn:hover { border-color: var(--red); color: var(--red); }
+    .filter-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
+
+    .filter-select {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      padding: 5px 28px 5px 12px;
+      border-radius: 20px;
+      border: 1px solid var(--gray-border);
+      background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E") no-repeat right 10px center;
+      color: #555;
+      cursor: pointer;
+      appearance: none;
+      transition: border-color 0.15s;
+    }
+    .filter-select:hover, .filter-select:focus { border-color: var(--red); color: var(--red); outline: none; }
+
+    .strip-add {
+      margin-left: auto;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 0.15s;
+    }
+    .strip-add:hover { color: var(--red); }
+
+    /* ── UPCOMING ── */
+    .upcoming {
+      padding: 2.5rem 2rem;
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      color: var(--black);
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+
+    .see-all {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--red);
+      text-decoration: none;
+    }
+    .see-all:hover { text-decoration: underline; }
+
+    .live-banner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(214,43,43,0.06);
+      border-left: 3px solid var(--red);
+      border-radius: 0 8px 8px 0;
+      padding: 0.625rem 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .live-dot {
+      position: relative;
+      width: 10px;
+      height: 10px;
+      flex-shrink: 0;
+    }
+    .live-dot::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--red);
+      border-radius: 50%;
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+    .live-dot::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: var(--red);
+      border-radius: 50%;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(1.8); }
+    }
+
+    .live-text {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+    }
+
+    .tournament-list { display: flex; flex-direction: column; gap: 2px; }
+
+    .tournament-row {
+      display: grid;
+      grid-template-columns: 56px 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid transparent;
+    }
+    .tournament-row:hover { background: var(--gray); border-color: rgba(214,43,43,0.12); }
+    .tournament-row:hover .t-arrow { transform: translateX(4px); color: var(--red); }
+
+    .t-date { text-align: center; }
+    .t-date-day {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      font-size: 26px;
+      line-height: 1;
+      color: var(--black);
+    }
+    .t-date-month {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+    }
+
+    .t-name { font-weight: 500; font-size: 15px; color: var(--black); margin-bottom: 4px; }
+    .t-meta { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+
+    .badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      padding: 2px 7px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+    .badge-red { background: #FDE8E8; color: var(--red-dark); }
+    .badge-gray { background: #EEEEE9; color: #555; }
+
+    .t-loc-wrap {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      margin-top: 3px;
+    }
+    .t-loc-wrap .material-symbols-outlined { font-size: 13px; color: var(--gray-mid); }
+    .t-loc { font-size: 12px; color: var(--gray-mid); }
+
+    .t-right { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+
+    .t-region {
+      font-size: 11px;
+      color: var(--gray-mid);
+      text-align: right;
+      white-space: nowrap;
+      display: none;
+    }
+
+    .t-arrow {
+      color: #ccc;
+      transition: transform 0.15s, color 0.15s;
+    }
+    .t-arrow .material-symbols-outlined { font-size: 18px; }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--black);
+      padding: 2rem;
+      text-align: center;
+      border-top: 3px solid var(--red);
+    }
+    .site-footer p {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 12px;
+      color: #555;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .site-footer a { color: var(--red); text-decoration: none; }
+    .site-footer a:hover { text-decoration: underline; }
+
+    @media (min-width: 640px) { .t-region { display: block; } }
+
+    @media (max-width: 640px) {
+      .tiles { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 42px; }
+      .hero { min-height: 420px; }
+      .nav .nav-hide { display: none; }
+      .strip-add { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="index.html">FLORBAL<span>.</span>APP</a>
+    <nav class="nav">
+      <a class="nav-hide" href="kalendar.html">Kalendář</a>
+      <a class="nav-hide" href="seznam.html">Seznam</a>
+      <a class="btn-add" href="pridat.html">+ Přidat turnaj</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-inner">
+      <div class="hero-content">
+        <span class="hero-label">Florbalové turnaje</span>
+        <h1>Kde a kdy<br><em>se hraje</em></h1>
+        <p class="hero-sub">Přehled florbalových turnajů v ČR, SR a zahraničí. Otevřené i kategoriové.</p>
+      </div>
+      <div class="tiles">
+        <a class="tile tile-cr" href="seznam.html?region=cr">
+          <span class="tile-bg-text">CZ</span>
+          <div style="width:36px;height:36px;margin-bottom:0.75rem;border-radius:50%;background:white;display:flex;align-items:center;justify-content:center;font-family:Barlow Condensed,sans-serif;font-weight:900;font-size:12px;color:#D62B2B;letter-spacing:0.5px">CZ</div>
+          <div class="tile-tag">Česká republika</div>
+          <h2>Turnaje<br>v Čechách</h2>
+          <div class="tile-arrow">Zobrazit <span class="material-symbols-outlined">arrow_forward</span></div>
+        </a>
+        <a class="tile tile-world" href="seznam.html?region=zahranici">
+          <span class="tile-bg-text">INT</span>
+          <span class="tile-icon">🌍</span>
+          <div class="tile-tag">Zahraničí</div>
+          <h2>Turnaje<br>v zahraničí</h2>
+          <div class="tile-arrow">Zobrazit <span class="material-symbols-outlined">arrow_forward</span></div>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filter strip -->
+  <div class="strip">
+  <div class="strip-inner">
+    <span class="strip-label">Filtr:</span>
+
+    <div class="filter-group">
+      <button class="filter-btn active" onclick="setPovrch(this, 'vse')">Vše</button>
+      <button class="filter-btn" onclick="setPovrch(this, 'uvnitr')">Uvnitř</button>
+      <button class="filter-btn" onclick="setPovrch(this, 'venku')">Venku</button>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <select class="filter-select" id="sel-kategorie" onchange="setKategorie(this)">
+      <option value="">Kategorie</option>
+      <optgroup label="Muži">
+        <option>Muži (U23+)</option>
+        <option>U23</option>
+        <option>U19 / Junioři</option>
+        <option>U17 / Dorostenci</option>
+        <option>U15 / Starší žáci</option>
+        <option>U13 / Mladší žáci</option>
+        <option>U11 / Elévové</option>
+        <option>Mini přípravka</option>
+        <option>Veteráni</option>
+        <option>Veteráni</option>
+      </optgroup>
+      <optgroup label="Ženy">
+        <option>Ženy (G23+)</option>
+        <option>G23</option>
+        <option>G19 / Juniorky</option>
+        <option>G17 / Dorostenky</option>
+        <option>G15 / Starší žákyně</option>
+        <option>G13 / Mladší žákyně</option>
+        <option>G11 / Elévky</option>
+        <option>Veteránky</option>
+      </optgroup>
+      <optgroup label="Ostatní">
+        <option>Smíšené</option>
+        <option>Mladší veteránky</option>
+        <option>Mladší veteráni</option>
+      </optgroup>
+    </select>
+
+    <div class="filter-divider"></div>
+
+    <select class="filter-select" id="sel-kraj" onchange="setKraj(this)">
+      <option value="">Kraj</option>
+      <optgroup label="Česká republika">
+        <option>Praha</option>
+        <option>Středočeský</option>
+        <option>Jihočeský</option>
+        <option>Plzeňský</option>
+        <option>Karlovarský</option>
+        <option>Ústecký</option>
+        <option>Liberecký</option>
+        <option>Královéhradecký</option>
+        <option>Pardubický</option>
+        <option>Vysočina</option>
+        <option>Jihomoravský</option>
+        <option>Olomoucký</option>
+        <option>Zlínský</option>
+        <option>Moravskoslezský</option>
+      </optgroup>
+      <optgroup label="Slovensko">
+        <option>Bratislavský kraj</option>
+        <option>Trnavský kraj</option>
+        <option>Trenčínský kraj</option>
+        <option>Nitrianský kraj</option>
+        <option>Žilinský kraj</option>
+        <option>Banskobystrický kraj</option>
+        <option>Prešovský kraj</option>
+        <option>Košický kraj</option>
+      </optgroup>
+    </select>
+
+    <a class="strip-add" href="pridat.html">+ Přidat turnaj</a>
+  </div>
+  </div>
+
+  <section class="upcoming">
+    <div class="section-head">
+      <h2 class="section-title">Nejbližší turnaje</h2>
+      <a class="see-all" href="seznam.html">Všechny →</a>
+    </div>
+
+    <div class="live-banner" id="live-banner" style="display:none">
+      <div class="live-dot"></div>
+      <span class="live-text">Dnes se hraje</span>
+    </div>
+
+    <div class="tournament-list" id="hp-list"><div style="padding:1.5rem;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#aaa">Načítám...</div></div>
+  </section>
+
+  <footer class="site-footer">
+    <p>florbal<span style="color:var(--red)">.</span>app &nbsp;·&nbsp; <a href="pridat.html">Přidat turnaj</a> &nbsp;·&nbsp; Florbalové turnaje v ČR a SR</p>
+  </footer>
+
+  <script>
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQW8jApm0jDnBw2NoJS0VsReF7sIRcrDHuw7nLsaX9wziVi6dL4gutYFUa3jiziEcPz2Jc5yMWjQkj-/pub?gid=0&single=true&output=csv';
+    const MESICE_SHORT = ['Led','Úno','Bře','Dub','Kvě','Čvn','Čvc','Srp','Zář','Říj','Lis','Pro'];
+
+    function parseCSV(text) {
+      const rows = [];
+      let cur = '', inQ = false, row = [];
+      for (let i = 0; i < text.length; i++) {
+        const c = text[i]; const next = text[i+1];
+        if (inQ) {
+          if (c === '"' && next === '"') { cur += '"'; i++; }
+          else if (c === '"') { inQ = false; }
+          else { cur += c; }
+        } else {
+          if (c === '"') { inQ = true; }
+          else if (c === ',') { row.push(cur); cur = ''; }
+          else if (c === '\n') { row.push(cur); cur = ''; rows.push(row); row = []; }
+          else if (c === '\r') {}
+          else { cur += c; }
+        }
+      }
+      if (cur || row.length) { row.push(cur); rows.push(row); }
+      return rows;
+    }
+
+    function todayStr() {
+      const d = new Date(); d.setHours(0,0,0,0);
+      return d.toISOString().split('T')[0];
+    }
+
+    function katBadgeClass(k) {
+      const MUZI = ['Muži (U23+)','U23','Veteráni'];
+      const ZENY = ['Ženy (G23+)','G23','Veteránky'];
+      const MLADEZ_ST = ['U19 / Junioři','U17 / Dorostenci','G19 / Juniorky','G17 / Dorostenky'];
+      const MLADEZ_ML = ['U15 / Starší žáci','U13 / Mladší žáci','U11 / Elévové','Přípravka','Mini přípravka','G15 / Starší žákyně','G13 / Mladší žákyně','G11 / Elévky','Přípravka (dívky)','Mini přípravka (dívky)'];
+      if (MUZI.includes(k)) return 'badge-red';
+      if (ZENY.includes(k)) return 'badge-blue';
+      if (MLADEZ_ST.includes(k) || MLADEZ_ML.includes(k)) return 'badge-amber';
+      if (k === 'Smíšené') return 'badge-green';
+      return 'badge-gray';
+    }
+
+    async function loadHP() {
+      try {
+        const res = await fetch(CSV_URL);
+        const text = await res.text();
+        const rows = parseCSV(text);
+        const ts = todayStr();
+        const turnaje = [];
+        for (let i = 1; i < rows.length; i++) {
+          const cols = rows[i];
+          if (cols.length < 14) continue;
+          if ((cols[13]||'').trim().toUpperCase() !== 'ANO') continue;
+          if (cols[4].trim() < ts) continue;
+          turnaje.push({ name:cols[1].trim(), datum:cols[3].trim(), konec:cols[4].trim(), kategorie:cols[9].trim().split(',').map(s=>s.trim()).filter(Boolean), format:cols[8].trim(), povrch:cols[7].trim().toLowerCase(), mesto:cols[5].trim(), kraj:cols[6].trim() });
+        }
+        allTurnaje = turnaje;
+        renderHP();
+      } catch(e) { console.error(e); }
+    }
+
+    let allTurnaje = [];
+
+    function renderHP() {
+      const ts = todayStr();
+      const kat = document.getElementById('sel-kategorie').value;
+      const kraj = document.getElementById('sel-kraj').value;
+      const CR = ['Praha','Středočeský','Jihočeský','Plzeňský','Karlovarský','Ústecký','Liberecký','Královéhradecký','Pardubický','Vysočina','Jihomoravský','Olomoucký','Zlínský','Moravskoslezský'];
+      const ZAH = ['Slovensko','Ostatní zahraničí'];
+
+      let filtered = allTurnaje.filter(t => {
+        if (hpPovrch !== 'vse' && t.povrch !== hpPovrch) return false;
+        if (kat && !t.kategorie.includes(kat)) return false;
+        if (kraj === '__cr__' && !CR.includes(t.kraj)) return false;
+        if (kraj === '__zahranici__' && !ZAH.includes(t.kraj)) return false;
+        if (kraj && kraj !== '__cr__' && kraj !== '__zahranici__' && t.kraj !== kraj) return false;
+        return true;
+      });
+
+      filtered.sort((a,b) => a.datum.localeCompare(b.datum));
+      const top = filtered.slice(0, 5);
+      const isToday = top.some(t => t.datum <= ts && t.konec >= ts);
+      const list = document.getElementById('hp-list');
+
+        let html = top.map(t => {
+          const d = new Date(t.datum + 'T00:00:00');
+          const katHtml = t.kategorie.slice(0,2).map(k => `<span class="badge ${katBadgeClass(k)}">${k}</span>`).join('') + (t.kategorie.length > 2 ? `<span class="badge badge-more">+${t.kategorie.length-2}</span>` : '');
+          const povrchLabel = t.povrch === 'uvnitr' ? 'Uvnitř' : 'Venku';
+          return `<a class="tournament-row" href="seznam.html">
+            <div class="t-date"><div class="t-date-day">${d.getDate()}</div><div class="t-date-month">${MESICE_SHORT[d.getMonth()]}</div></div>
+            <div class="t-info">
+              <div class="t-name">${t.name}</div>
+              <div class="t-meta">${katHtml}<span class="badge badge-gray">${t.format}</span><span class="badge badge-gray">${povrchLabel}</span></div>
+              <div class="t-loc-wrap"><span class="material-symbols-outlined">location_on</span><span class="t-loc">${t.mesto}</span></div>
+            </div>
+            <div class="t-right"><span class="t-region">${t.kraj}</span><div class="t-arrow"><span class="material-symbols-outlined">arrow_forward</span></div></div>
+          </a>`;
+        }).join('');
+
+        if (!html) html = '<div style="padding:1.5rem;text-align:center;font-family:\'Barlow Condensed\',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:#aaa">Zatím žádné turnaje</div>';
+        list.innerHTML = html;
+
+        document.getElementById('live-banner').style.display = isToday ? 'flex' : 'none';
+    }
+
+    let hpPovrch = 'vse';
+
+    function setPovrch(btn, val) {
+      document.querySelectorAll('.filter-group .filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      hpPovrch = val;
+      renderHP();
+    }
+    function setKategorie(sel) {
+      if (sel.value) sel.style.borderColor = 'var(--red)';
+      else sel.style.borderColor = '';
+      renderHP();
+    }
+    function setKraj(sel) {
+      if (sel.value) sel.style.borderColor = 'var(--red)';
+      else sel.style.borderColor = '';
+      renderHP();
+    }
+
+    loadHP();
+  </script>
+
+</body>
+</html>
