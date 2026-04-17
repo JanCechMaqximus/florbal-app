@@ -390,7 +390,7 @@
       if (kat && !t.kategorie.includes(kat)) return false;
       if (kraj) {
         const CR = ['Praha','Středočeský','Jihočeský','Plzeňský','Karlovarský','Ústecký','Liberecký','Královéhradecký','Pardubický','Vysočina','Jihomoravský','Olomoucký','Zlínský','Moravskoslezský'];
-        const ZAH = ['Slovensko','Ostatní zahraničí'];
+        const ZAH = ['Slovensko','Bratislavský kraj','Trnavský kraj','Trenčínský kraj','Nitrianský kraj','Žilinský kraj','Banskobystrický kraj','Prešovský kraj','Košický kraj','Ostatní zahraničí'];
         if (kraj === '__cr__' && !CR.includes(t.kraj)) return false;
         else if (kraj === '__zahranici__' && !ZAH.includes(t.kraj)) return false;
         else if (kraj !== '__cr__' && kraj !== '__zahranici__' && t.kraj !== kraj) return false;

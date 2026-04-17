@@ -333,7 +333,7 @@
       const kat = document.getElementById('sel-kategorie').value;
       const kraj = document.getElementById('sel-kraj').value;
       const CR = ['Praha','Středočeský','Jihočeský','Plzeňský','Karlovarský','Ústecký','Liberecký','Královéhradecký','Pardubický','Vysočina','Jihomoravský','Olomoucký','Zlínský','Moravskoslezský'];
-      const ZAH = ['Slovensko','Ostatní zahraničí'];
+      const ZAH = ['Slovensko','Bratislavský kraj','Trnavský kraj','Trenčínský kraj','Nitrianský kraj','Žilinský kraj','Banskobystrický kraj','Prešovský kraj','Košický kraj','Ostatní zahraničí'];
       return TURNAJE.filter(t => {
         if (!(t.datum <= ds && t.konec >= ds)) return false;
         if (kalPovrch !== 'vse' && t.povrch !== kalPovrch) return false;
