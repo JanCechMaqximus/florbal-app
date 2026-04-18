@@ -397,20 +397,21 @@
       color: var(--red);
     }
 
-    .tournament-list { display: flex; flex-direction: column; gap: 2px; }
+    .tournament-list { display: flex; flex-direction: column; gap: 0; background: var(--white); border-radius: 12px; border: 1px solid var(--gray-border); overflow: hidden; }
 
     .tournament-row {
       display: grid;
-      grid-template-columns: 56px 1fr auto;
+      grid-template-columns: 72px 1fr 140px;
       align-items: center;
       gap: 1rem;
       padding: 1rem;
-      border-radius: 12px;
+      border-radius: 0;
       cursor: pointer;
       transition: background 0.15s;
       text-decoration: none;
       color: inherit;
-      border: 1px solid transparent;
+      border: none;
+      border-bottom: 1px solid var(--gray-border);
     }
     .tournament-row:hover { background: var(--gray); border-color: rgba(214,43,43,0.12); }
     .tournament-row:hover .t-arrow { transform: translateX(4px); color: var(--red); }
