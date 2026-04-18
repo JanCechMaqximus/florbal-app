@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Kontaktujte tým florbal.app — nahlašte chybu nebo pošlete zprávu.">
+  <link rel="icon" type="image/png" href="tab.png">
+  <title>Kontakt – florbal.app</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --red: #D62B2B; --red-dark: #A01E1E;
+      --black: #111111; --white: #FFFFFF;
+      --gray: #F4F4F2; --gray-mid: #888780; --gray-border: #E8E7E3;
+    }
+    body { font-family: 'Barlow', sans-serif; background: var(--gray); color: var(--black); }
+
+    .site-header { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(17,17,17,0.96); backdrop-filter: blur(10px); border-bottom: 2px solid var(--red); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 54px; }
+    .logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
+    .logo span { color: var(--red); }
+    .nav { display: flex; align-items: center; gap: 2rem; }
+    .nav a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; color: #ddd; text-decoration: none; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.15s; }
+    .nav a:hover { color: var(--white); }
+    .nav a.active { color: var(--red); }
+    .btn-add { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; background: var(--red); color: var(--white) !important; border: 2px solid var(--red); padding: 7px 18px; border-radius: 6px; cursor: pointer; text-decoration: none; transition: background 0.15s, color 0.15s; }
+    .btn-add:hover { background: transparent; color: var(--red) !important; }
+
+    .page-wrap { max-width: 600px; margin: 0 auto; padding: 3rem 1.5rem 4rem; margin-top: 54px; }
+
+    .page-header { margin-bottom: 2.5rem; }
+    .page-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 0.5rem; display: block; }
+    .page-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 40px; line-height: 1; text-transform: uppercase; color: var(--black); margin-bottom: 0.75rem; }
+    .page-sub { font-size: 14px; color: var(--gray-mid); line-height: 1.6; }
+
+    .form-card { background: var(--white); border-radius: 16px; border: 1px solid var(--gray-border); overflow: hidden; }
+    .form-section { padding: 1.75rem 2rem; }
+
+    .field { margin-bottom: 1.25rem; }
+    .field:last-child { margin-bottom: 0; }
+    label.field-label { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+    label.field-label .req { color: var(--red); margin-left: 2px; }
+
+    input[type="email"], textarea {
+      width: 100%; font-family: 'Barlow', sans-serif; font-size: 14px; color: var(--black);
+      background: var(--white); border: 1px solid var(--gray-border); border-radius: 8px;
+      padding: 10px 14px; transition: border-color 0.15s; appearance: none; outline: none;
+    }
+    input:focus, textarea:focus { border-color: var(--red); }
+    input::placeholder, textarea::placeholder { color: #bbb; }
+    textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+
+    .submit-section { padding: 1.75rem 2rem; background: var(--gray); border-top: 1px solid var(--gray-border); }
+
+    .btn-submit { width: 100%; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase; background: var(--red); color: var(--white); border: none; border-radius: 10px; padding: 16px; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-submit:hover { background: var(--red-dark); }
+    .btn-submit .material-symbols-outlined { font-size: 20px; }
+
+    .success-screen { display: none; }
+    .success-screen.show { display: block; }
+
+    .site-footer { background: var(--black); padding: 2rem; text-align: center; border-top: 3px solid var(--red); margin-top: 0; }
+    .site-footer p { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; color: #555; letter-spacing: 1px; text-transform: uppercase; }
+    .site-footer a { color: var(--red); text-decoration: none; }
+    .site-footer a:hover { text-decoration: underline; }
+
+    @media (max-width: 600px) {
+      .nav .nav-hide { display: none; }
+      .page-wrap { padding: 2rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="index.html">FLORBAL<span>.</span>APP</a>
+    <nav class="nav">
+      <a class="nav-hide" href="kalendar.html">Kalendář</a>
+      <a class="nav-hide" href="seznam.html">Seznam</a>
+      <a class="btn-add" href="pridat.html">+ Přidat turnaj</a>
+    </nav>
+  </header>
+
+  <div class="page-wrap">
+
+    <div class="page-header">
+      <span class="page-label">florbal.app</span>
+      <h1 class="page-title">Kontakt</h1>
+      <p class="page-sub">Našli jste chybu nebo máte nápad na vylepšení? Napište nám.</p>
+    </div>
+
+    <div class="form-card" id="form-card">
+      <div class="form-section">
+
+        <div class="field">
+          <label class="field-label">Váš email <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="vas@email.cz">
+        </div>
+
+        <div class="field">
+          <label class="field-label">Zpráva <span class="req">*</span></label>
+          <textarea id="zprava" placeholder="Popište co se stalo nebo co byste chtěli zlepšit..."></textarea>
+        </div>
+
+      </div>
+
+      <div class="submit-section">
+        <button class="btn-submit" onclick="submitContact()">
+          <span class="material-symbols-outlined">send</span>
+          Odeslat zprávu
+        </button>
+      </div>
+    </div>
+
+    <div class="success-screen" id="success-screen">
+      <div class="form-card" style="padding: 3rem 2rem; text-align: center;">
+        <div style="width:64px;height:64px;background:#E8F5E8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+          <span class="material-symbols-outlined" style="font-size:32px;color:#2A7A2A">check_circle</span>
+        </div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase;margin-bottom:0.75rem;">Zpráva odeslána!</div>
+        <p style="font-size:14px;color:var(--gray-mid);line-height:1.7;max-width:380px;margin:0 auto 2rem;">Děkujeme za zprávu. Ozveme se vám co nejdříve.</p>
+        <a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--red);text-decoration:none;">← Zpět na hlavní stránku</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <p>florbal<span style="color:var(--red)">.</span>app &nbsp;·&nbsp; <a href="pridat.html">Přidat turnaj</a> &nbsp;·&nbsp; <a href="contact.html">Kontakt</a></p>
+  </footer>
+
+  <script>
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIZBQMAq1pOWR6UyFt0570b45U0PAJDDgiEP497TOuNvnWUm81DpqtN-cBrBl5IONwug/exec';
+
+    async function submitContact() {
+      const email = document.getElementById('email').value.trim();
+      const zprava = document.getElementById('zprava').value.trim();
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        document.getElementById('email').style.borderColor = 'var(--red)';
+        alert('Zadejte platnou emailovou adresu.');
+        return;
+      }
+      if (!zprava) {
+        document.getElementById('zprava').style.borderColor = 'var(--red)';
+        alert('Vyplňte zprávu.');
+        return;
+      }
+
+      const btn = document.querySelector('.btn-submit');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> Odesílám...';
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            typ: 'kontakt',
+            email: email,
+            zprava: zprava,
+          }),
+        });
+        document.getElementById('form-card').style.display = 'none';
+        document.getElementById('success-screen').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined">send</span> Odeslat zprávu';
+        alert('Nepodařilo se odeslat. Zkontroluj připojení a zkus znovu.');
+      }
+    }
+  </script>
+
+</body>
+</html>
