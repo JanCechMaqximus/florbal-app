@@ -445,6 +445,9 @@
       text-transform: uppercase;
     }
     .badge-red { background: #FDE8E8; color: var(--red-dark); }
+    .badge-blue { background: #E6F1FB; color: #0C447C; }
+    .badge-green { background: #EAF3DE; color: #27500A; }
+    .badge-amber { background: #FAEEDA; color: #633806; }
     .badge-gray { background: #EEEEE9; color: #555; }
 
     .t-loc-wrap {
@@ -664,16 +667,17 @@
     }
 
     function katBadgeClass(k) {
-      const MUZI = ['Muži (U23+)','U23','Veteráni'];
-      const ZENY = ['Ženy (G23+)','G23','Veteránky'];
-      const MLADEZ_ST = ['U19 / Junioři','U17 / Dorostenci','G19 / Juniorky','G17 / Dorostenky'];
-      const MLADEZ_ML = ['U15 / Starší žáci','U13 / Mladší žáci','U11 / Elévové','Přípravka','Mini přípravka','G15 / Starší žákyně','G13 / Mladší žákyně','G11 / Elévky','Přípravka (dívky)','Mini přípravka (dívky)'];
-      if (MUZI.includes(k)) return 'badge-red';
-      if (ZENY.includes(k)) return 'badge-blue';
-      if (MLADEZ_ST.includes(k) || MLADEZ_ML.includes(k)) return 'badge-amber';
-      if (k === 'Smíšené') return 'badge-green';
-      return 'badge-gray';
-    }
+    const MUZI    = ['Muži (U23+)','U23','Veteráni'];
+    const ZENY    = ['Ženy (G23+)','G23','Veteránky'];
+    const ML_ST   = ['U19 / Junioři','U17 / Dorostenci','G19 / Juniorky','G17 / Dorostenky'];
+    const ML_ML   = ['U15 / Starší žáci','U13 / Mladší žáci','U11 / Elévové','Přípravka','Mini přípravka','G15 / Starší žákyně','G13 / Mladší žákyně','G11 / Elévky','Přípravka (dívky)','Mini přípravka (dívky)'];
+    if (MUZI.includes(k))  return 'badge-red';
+    if (ZENY.includes(k))  return 'badge-blue';
+    if (ML_ST.includes(k)) return 'badge-green';
+    if (ML_ML.includes(k)) return 'badge-amber';
+    if (k === 'Smíšené')   return 'badge-green';
+    return 'badge-gray';
+  }
 
     async function loadHP() {
       try {
