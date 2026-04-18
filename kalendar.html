@@ -103,7 +103,7 @@
 
     .detail-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
     .detail-overlay.open { display: flex; }
-    .detail-panel { background: var(--white); border-radius: 16px; width: 100%; max-width: 560px; padding: 2rem; max-height: 85vh; overflow-y: auto; animation: fadeScale 0.2s ease; position: relative; overflow: hidden; } .detail-panel::after { content: ""; position: absolute; right: -2%; bottom: -2%; width: 55%; aspect-ratio: 1; background: url("tab.png") no-repeat center / contain; opacity: 0.3; pointer-events: none; }
+    .detail-panel { background: var(--white) url("tab.png") no-repeat right -30px bottom -30px / 260px auto; border-radius: 16px; width: 100%; max-width: 560px; padding: 2rem 2rem 2.5rem; max-height: 85vh; overflow-y: auto; animation: fadeScale 0.2s ease; position: relative; }
     @keyframes fadeScale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
     .detail-handle { width: 40px; height: 4px; background: var(--gray-border); border-radius: 2px; margin: 0 auto 1.25rem; }
     .detail-date { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 0.75rem; }
