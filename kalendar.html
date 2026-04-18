@@ -103,7 +103,7 @@
 
     .detail-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 9999; display: none; align-items: center; justify-content: center; padding: 1.5rem; }
     .detail-overlay.open { display: flex; }
-    .detail-panel { background: var(--white); border-radius: 16px; width: 100%; max-width: 560px; padding: 2rem; max-height: 85vh; overflow-y: auto; animation: fadeScale 0.2s ease; position: relative; }
+    .detail-panel { background: var(--white); border-radius: 16px; width: 100%; max-width: 560px; padding: 2rem; max-height: 85vh; overflow-y: auto; animation: fadeScale 0.2s ease; position: relative; overflow: hidden; } .detail-panel::after { content: ""; position: absolute; right: -2%; bottom: -2%; width: 55%; aspect-ratio: 1; background: url("tab.png") no-repeat center / contain; opacity: 0.3; pointer-events: none; }
     @keyframes fadeScale { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
     .detail-handle { width: 40px; height: 4px; background: var(--gray-border); border-radius: 2px; margin: 0 auto 1.25rem; }
     .detail-date { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 0.75rem; }
@@ -441,7 +441,8 @@
       const MLADEZ_ML = ['U15 / Starší žáci','U13 / Mladší žáci','U11 / Elévové','Přípravka','Mini přípravka','G15 / Starší žákyně','G13 / Mladší žákyně','G11 / Elévky','Přípravka (dívky)','Mini přípravka (dívky)'];
       if (MUZI.includes(k)) return 'badge-red';
       if (ZENY.includes(k)) return 'badge-blue';
-      if (MLADEZ_ST.includes(k) || MLADEZ_ML.includes(k)) return 'badge-amber';
+      if (MLADEZ_ST.includes(k)) return 'badge-green';
+      if (MLADEZ_ML.includes(k)) return 'badge-amber';
       if (k === 'Smíšené') return 'badge-green';
       return 'badge-gray';
     }
