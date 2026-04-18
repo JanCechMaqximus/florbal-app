@@ -73,8 +73,8 @@
 
     .t-date { text-align: center; flex-shrink: 0; }
     .t-date-day { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 24px; line-height: 1; color: var(--black); }
-    .t-date-month { font-family: 'Barlow Condensed', sans-serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: var(--gray-mid); }
-    .t-date-range { font-family: 'Barlow Condensed', sans-serif; font-size: 9px; color: var(--gray-mid); letter-spacing: 0.5px; margin-top: 1px; }
+    .t-date-month { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; color: var(--black); }
+    .t-date-range { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; font-weight: 700; color: var(--gray-mid); letter-spacing: 0.5px; margin-top: 1px; }
 
     .t-name { font-weight: 500; font-size: 15px; color: var(--black); margin-bottom: 4px; }
     .t-meta { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; margin-bottom: 3px; }
@@ -199,8 +199,8 @@
     </optgroup>
     <option value="__zahranici__">── Zahraničí (vše)</option>
     <optgroup label="Zahraničí">
-      <option>Slovensko</option><option>Ostatní zahraničí</option>
-    </optgroup>
+        <option>Slovensko</option><option>Ostatní zahraničí</option>
+      </optgroup>
   </select>
 
   <button class="clear-btn" id="clear-btn" onclick="clearFilters()">× Zrušit filtry</button>
@@ -280,7 +280,7 @@
   async function loadData() {
     document.getElementById('list-container').innerHTML = '<div style="text-align:center;padding:3rem;color:var(--gray-mid);font-family:Barlow Condensed,sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase">Načítám turnaje...</div>';
     try {
-      const res = await fetch(CSV_URL);
+      const res = await fetch(CSV_URL, {mode:'cors'});
       const text = await res.text();
       TURNAJE = parseTurnaje(text);
     } catch(e) {

@@ -86,7 +86,7 @@
     .day-event.t-zeny { background: #E6F1FB; color: #0C447C; }
     .day-event.t-mladez { background: #FAEEDA; color: #633806; }
     .day-event.t-mix { background: #EAF3DE; color: #27500A; }
-    .day-event.t-multi { background: #F4F4F2; color: #333; }
+    .day-event.t-multi { background: #E8E8E8; color: #111; }
 
     .event-dots { display: flex; gap: 2px; align-items: center; flex-shrink: 0; }
     .edot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
@@ -195,11 +195,8 @@
         <option>Vysočina</option><option>Jihomoravský</option><option>Olomoucký</option>
         <option>Zlínský</option><option>Moravskoslezský</option>
       </optgroup>
-      <optgroup label="Slovensko">
-        <option>Bratislavský kraj</option><option>Trnavský kraj</option>
-        <option>Trenčínský kraj</option><option>Nitrianský kraj</option>
-        <option>Žilinský kraj</option><option>Banskobystrický kraj</option>
-        <option>Prešovský kraj</option><option>Košický kraj</option>
+      <optgroup label="Zahraničí">
+        <option>Slovensko</option><option>Ostatní zahraničí</option>
       </optgroup>
     </select>
     <a class="strip-add" href="pridat.html">+ Přidat turnaj</a>
@@ -289,7 +286,7 @@
 
     async function loadData() {
       try {
-        const res = await fetch(CSV_URL);
+        const res = await fetch(CSV_URL, {mode:'cors'});
         const text = await res.text();
         const rows = parseCSV(text);
         TURNAJE = [];

@@ -517,7 +517,7 @@
       <div class="hero-content">
         <span class="hero-label">Florbalové turnaje</span>
         <h1>Kde a kdy<br><em>se hraje</em></h1>
-        <p class="hero-sub">Přehled florbalových turnajů v ČR, SR a zahraničí.</p>
+        <p class="hero-sub">Přehled florbalových turnajů v ČR, SR a zahraničí. Otevřené i kategoriové.</p>
       </div>
       <div class="tiles">
         <a class="tile tile-cr" href="seznam.html?region=cr">
@@ -603,14 +603,9 @@
         <option>Moravskoslezský</option>
       </optgroup>
       <optgroup label="Slovensko">
-        <option>Bratislavský kraj</option>
-        <option>Trnavský kraj</option>
-        <option>Trenčínský kraj</option>
-        <option>Nitrianský kraj</option>
-        <option>Žilinský kraj</option>
-        <option>Banskobystrický kraj</option>
-        <option>Prešovský kraj</option>
-        <option>Košický kraj</option>
+        <option value="__zahranici__">── Zahraničí (vše)</option>
+        <option>Slovensko</option>
+        <option>Ostatní zahraničí</option>
       </optgroup>
     </select>
 
@@ -680,7 +675,7 @@
 
     async function loadHP() {
       try {
-        const res = await fetch(CSV_URL);
+        const res = await fetch(CSV_URL, {mode:'cors'});
         const text = await res.text();
         const rows = parseCSV(text);
         const ts = todayStr();
