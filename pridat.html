@@ -28,9 +28,11 @@
     .logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
     .logo span { color: var(--red); }
     .nav { display: flex; align-items: center; gap: 2rem; }
-    .nav a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; color: #aaa; text-decoration: none; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.15s; }
+    .nav a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; color: #ddd; text-decoration: none; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.15s; }
     .nav a:hover { color: var(--white); }
     .nav a.active { color: var(--red); }
+    .btn-add { font-family: "Barlow Condensed", sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; background: var(--red); color: var(--white) !important; border: 2px solid var(--red); padding: 7px 18px; border-radius: 6px; cursor: pointer; text-decoration: none; transition: background 0.15s, color 0.15s; }
+    .btn-add:hover { background: transparent; color: var(--red) !important; }
 
     .page-wrap { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 4rem; margin-top: 54px; }
 
@@ -125,7 +127,7 @@
     <nav class="nav">
       <a class="nav-hide" href="kalendar.html">Kalendář</a>
       <a class="nav-hide" href="seznam.html">Seznam</a>
-      <a class="active" href="pridat.html">+ Přidat turnaj</a>
+      <a class="btn-add active" href="pridat.html">+ Přidat turnaj</a>
     </nav>
   </header>
 
