@@ -82,7 +82,7 @@
     .checkbox-label { font-size: 13px; color: var(--black); line-height: 1.3; }
     .checkbox-sublabel { font-size: 11px; color: var(--gray-mid); }
 
-    .format-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; }
+    .format-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; }
     .format-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; border-right: 1px solid var(--gray-border); transition: background 0.1s; user-select: none; }
     .format-item:last-child { border-right: none; }
     .format-item:hover { background: var(--gray); }
@@ -221,6 +221,13 @@
             </div>
           </label>
           <label class="format-item">
+            <input type="checkbox" value="4+1" id="format-4">
+            <div>
+              <div class="format-label">4 + 1</div>
+              <div class="format-sub">Čtyři hráči + brankář</div>
+            </div>
+          </label>
+          <label class="format-item">
             <input type="checkbox" value="3+1" id="format-3">
             <div>
               <div class="format-label">3 + 1</div>
@@ -352,7 +359,7 @@
     }
 
     function getFormat() {
-      return ['format-5','format-3'].filter(id => document.getElementById(id).checked).map(id => document.getElementById(id).value);
+      return ['format-5','format-4','format-3'].filter(id => document.getElementById(id).checked).map(id => document.getElementById(id).value);
     }
 
     function getKategorie() {
