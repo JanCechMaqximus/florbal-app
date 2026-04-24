@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="tab.png">
+  <meta property="og:title" content="Přidat turnaj – florbal.app">
+  <meta property="og:description" content="Přidej svůj florbalový turnaj do kalendáře zdarma.">
+  <meta property="og:url" content="https://florbal.app/pridat.html">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://florbal.app/hero.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="description" content="Přidej svůj florbalový turnaj do kalendáře florbal.app. Zdarma, rychle, pro všechny kategorie.">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>florbal.app – Přidat turnaj</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --red: #D62B2B; --red-dark: #A01E1E;
+      --black: #111111; --white: #FFFFFF;
+      --gray: #F4F4F2; --gray-mid: #888780; --gray-border: #E8E7E3;
+    }
+    body { font-family: 'Barlow', sans-serif; background: var(--gray); color: var(--black); }
+
+    .site-header { position: fixed; top: 0; width: 100%; z-index: 100; background: rgba(17,17,17,0.96); backdrop-filter: blur(10px); border-bottom: 2px solid var(--red); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 54px; }
+    .logo { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; color: var(--white); letter-spacing: 1px; text-transform: uppercase; text-decoration: none; }
+    .logo span { color: var(--red); }
+    .nav { display: flex; align-items: center; gap: 2rem; }
+    .nav a { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 13px; color: #ddd; text-decoration: none; letter-spacing: 1.5px; text-transform: uppercase; transition: color 0.15s; }
+    .nav a:hover { color: var(--white); }
+    .nav a.active { color: var(--red); }
+    .btn-add { font-family: "Barlow Condensed", sans-serif; font-weight: 900; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; background: var(--red); color: var(--white) !important; border: 2px solid var(--red); padding: 7px 18px; border-radius: 6px; cursor: pointer; text-decoration: none; transition: background 0.15s, color 0.15s; }
+    .btn-add:hover { background: transparent; color: var(--red) !important; }
+
+    .page-wrap { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 4rem; margin-top: 54px; }
+
+    .page-header { margin-bottom: 2.5rem; }
+    .page-label { font-family: 'Barlow Condensed', sans-serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--red); margin-bottom: 0.5rem; display: block; }
+    .page-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 40px; line-height: 1; text-transform: uppercase; color: var(--black); margin-bottom: 0.75rem; }
+    .page-sub { font-size: 14px; color: var(--gray-mid); line-height: 1.6; }
+
+    .form-card { background: var(--white); border-radius: 16px; border: 1px solid var(--gray-border); overflow: hidden; }
+    .form-section { padding: 1.75rem 2rem; border-bottom: 1px solid var(--gray-border); }
+    .form-section:last-child { border-bottom: none; }
+
+    .section-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 16px; text-transform: uppercase; letter-spacing: 1px; color: var(--black); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 8px; }
+    .section-title .material-symbols-outlined { font-size: 18px; color: var(--red); }
+
+    .field { margin-bottom: 1.25rem; }
+    .field:last-child { margin-bottom: 0; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+    label.field-label { display: block; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: #555; margin-bottom: 6px; }
+    label.field-label .req { color: var(--red); margin-left: 2px; }
+    label.field-label .opt { color: #bbb; font-weight: 400; margin-left: 4px; text-transform: none; letter-spacing: 0; font-size: 11px; }
+
+    input[type="text"], input[type="email"], input[type="url"], input[type="date"], textarea, select {
+      width: 100%; font-family: 'Barlow', sans-serif; font-size: 14px; color: var(--black);
+      background: var(--white); border: 1px solid var(--gray-border); border-radius: 8px;
+      padding: 10px 14px; transition: border-color 0.15s; appearance: none; outline: none;
+    }
+    input:focus, textarea:focus, select:focus { border-color: var(--red); }
+    input::placeholder, textarea::placeholder { color: #bbb; }
+    textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; padding-right: 36px; }
+
+    .toggle-group { display: flex; gap: 0; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; }
+    .toggle-btn { flex: 1; padding: 10px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; border: none; background: var(--white); color: #777; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; gap: 6px; border-right: 1px solid var(--gray-border); }
+    .toggle-btn:last-child { border-right: none; }
+    .toggle-btn:hover { background: var(--gray); color: var(--black); }
+    .toggle-btn.active { background: var(--black); color: var(--white); }
+    .toggle-btn .material-symbols-outlined { font-size: 16px; }
+
+    .checkbox-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; }
+    .checkbox-group-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gray-mid); padding: 8px 14px 4px; background: var(--gray); border-bottom: 1px solid var(--gray-border); grid-column: 1 / -1; }
+    .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--gray-border); border-right: 1px solid var(--gray-border); transition: background 0.1s; user-select: none; }
+    .checkbox-item:nth-child(even) { border-right: none; }
+    .checkbox-item:hover { background: var(--gray); }
+    .checkbox-item input[type="checkbox"] { width: 16px; height: 16px; min-width: 16px; border: 1.5px solid var(--gray-border); border-radius: 4px; background: var(--white); cursor: pointer; padding: 0; accent-color: var(--red); }
+    .checkbox-label { font-size: 13px; color: var(--black); line-height: 1.3; }
+    .checkbox-sublabel { font-size: 11px; color: var(--gray-mid); }
+
+    .format-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border: 1px solid var(--gray-border); border-radius: 8px; overflow: hidden; }
+    .format-item { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; border-right: 1px solid var(--gray-border); transition: background 0.1s; user-select: none; }
+    .format-item:last-child { border-right: none; }
+    .format-item:hover { background: var(--gray); }
+    .format-item input[type="checkbox"] { width: 18px; height: 18px; min-width: 18px; border: 1.5px solid var(--gray-border); border-radius: 4px; cursor: pointer; padding: 0; accent-color: var(--red); }
+    .format-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; color: var(--black); letter-spacing: 1px; }
+    .format-sub { font-size: 11px; color: var(--gray-mid); margin-top: 1px; }
+
+    .jine-wrap { margin-top: 0.75rem; display: none; }
+    .jine-wrap.show { display: block; }
+    .hint { font-size: 12px; color: var(--gray-mid); margin-top: 5px; line-height: 1.5; }
+
+    .submit-section { padding: 1.75rem 2rem; background: var(--gray); }
+    .email-note { display: flex; align-items: flex-start; gap: 10px; background: #FFF8E8; border: 1px solid #F0D890; border-radius: 8px; padding: 12px 14px; margin-bottom: 1.25rem; }
+    .email-note .material-symbols-outlined { font-size: 18px; color: #BA7517; flex-shrink: 0; margin-top: 1px; }
+    .email-note-text { font-size: 13px; color: #633806; line-height: 1.5; }
+
+    .btn-submit { width: 100%; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: 1.5px; text-transform: uppercase; background: var(--red); color: var(--white); border: none; border-radius: 10px; padding: 16px; cursor: pointer; transition: background 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .btn-submit:hover { background: var(--red-dark); }
+    .btn-submit .material-symbols-outlined { font-size: 20px; }
+
+    .success-screen { display: none; }
+    .success-screen.show { display: block; }
+
+    .site-footer { background: var(--black); padding: 2rem; text-align: center; border-top: 3px solid var(--red); }
+    .site-footer p { font-family: 'Barlow Condensed', sans-serif; font-size: 12px; color: #555; letter-spacing: 1px; text-transform: uppercase; }
+    .site-footer a { color: var(--red); text-decoration: none; }
+
+    @media (max-width: 600px) {
+      .field-row { grid-template-columns: 1fr; }
+      .checkbox-grid { grid-template-columns: 1fr; }
+      .checkbox-item { border-right: none; }
+      .format-grid { grid-template-columns: 1fr 1fr; }
+      .nav .nav-hide { display: none; }
+      .page-wrap { padding: 2rem 1rem 3rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <a class="logo" href="index.html">FLORBAL<span>.</span>APP</a>
+    <nav class="nav">
+      <a class="nav-hide" href="kalendar.html">Kalendář</a>
+      <a class="nav-hide" href="seznam.html">Seznam</a>
+      <a class="btn-add active" href="pridat.html">+ Přidat turnaj</a>
+    </nav>
+  </header>
+
+  <div class="page-wrap">
+
+    <div class="page-header">
+      <span class="page-label">Florbal.app</span>
+      <h1 class="page-title">Přidat turnaj</h1>
+      <p class="page-sub">Vyplňte základní informace o turnaji. Po odeslání obdržíte potvrzovací email.</p>
+    </div>
+
+    <div class="form-card" id="form-card">
+
+      <!-- 1. Základní info -->
+      <div class="form-section">
+        <div class="section-title"><span class="material-symbols-outlined">info</span> Základní informace</div>
+
+        <div class="field">
+          <label class="field-label">Název turnaje <span class="req">*</span></label>
+          <input type="text" id="nazev" placeholder="např. Praha Floorball Open 2025">
+        </div>
+
+        <div class="field">
+          <label class="field-label">Popis turnaje <span class="opt">volitelné</span></label>
+          <textarea id="popis" placeholder="Krátké info o turnaji — pro koho je určen, co nabízí, zvláštnosti..."></textarea>
+        </div>
+
+        <div class="field field-row">
+          <div>
+            <label class="field-label">Datum od <span class="req">*</span></label>
+            <input type="date" id="datum-od">
+          </div>
+          <div>
+            <label class="field-label">Datum do <span class="req">*</span></label>
+            <input type="date" id="datum-do">
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Místo -->
+      <div class="form-section">
+        <div class="section-title"><span class="material-symbols-outlined">location_on</span> Místo konání</div>
+
+        <div class="field field-row">
+          <div>
+            <label class="field-label">Město <span class="req">*</span></label>
+            <input type="text" id="mesto" placeholder="např. Praha">
+          </div>
+          <div>
+            <label class="field-label">Kraj <span class="req">*</span></label>
+            <select id="kraj">
+              <option value="">Vyberte kraj</option>
+              <optgroup label="Česká republika">
+                <option>Praha</option><option>Středočeský</option><option>Jihočeský</option>
+                <option>Plzeňský</option><option>Karlovarský</option><option>Ústecký</option>
+                <option>Liberecký</option><option>Královéhradecký</option><option>Pardubický</option>
+                <option>Vysočina</option><option>Jihomoravský</option><option>Olomoucký</option>
+                <option>Zlínský</option><option>Moravskoslezský</option>
+              </optgroup>
+              <optgroup label="Zahraničí">
+                <option>Slovensko</option>
+                <option>Ostatní zahraničí</option>
+              </optgroup>
+            </select>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="field-label">Prostředí <span class="req">*</span></label>
+          <div class="toggle-group">
+            <button class="toggle-btn active" onclick="setToggle(this,'prostredi')" data-val="uvnitr">
+              <span class="material-symbols-outlined">sports_gymnastics</span> Uvnitř (hala)
+            </button>
+            <button class="toggle-btn" onclick="setToggle(this,'prostredi')" data-val="venku">
+              <span class="material-symbols-outlined">wb_sunny</span> Venku
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Formát -->
+      <div class="form-section">
+        <div class="section-title"><span class="material-symbols-outlined">sports</span> Formát hry</div>
+        <label class="field-label">Vyberte formát(y) <span class="req">*</span></label>
+        <div class="format-grid">
+          <label class="format-item">
+            <input type="checkbox" value="5+1" id="format-5">
+            <div>
+              <div class="format-label">5 + 1</div>
+              <div class="format-sub">Pět hráčů + brankář</div>
+            </div>
+          </label>
+          <label class="format-item">
+            <input type="checkbox" value="4+1" id="format-4">
+            <div>
+              <div class="format-label">4 + 1</div>
+              <div class="format-sub">Čtyři hráči + brankář</div>
+            </div>
+          </label>
+          <label class="format-item">
+            <input type="checkbox" value="3+1" id="format-3">
+            <div>
+              <div class="format-label">3 + 1</div>
+              <div class="format-sub">Tři hráči + brankář</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- 4. Kategorie -->
+      <div class="form-section">
+        <div class="section-title"><span class="material-symbols-outlined">groups</span> Kategorie</div>
+        <p class="hint" style="margin-bottom:1rem">Vyberte všechny kategorie, které se turnaje účastní.</p>
+
+        <div class="checkbox-grid">
+
+          <div class="checkbox-group-title">Muži</div>
+          <label class="checkbox-item"><input type="checkbox" value="Muži (U23+)"><span class="checkbox-label">Muži <span class="checkbox-sublabel">U23+</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="U23"><span class="checkbox-label">U23</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="U19 / Junioři"><span class="checkbox-label">U19 <span class="checkbox-sublabel">Junioři</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="U17 / Dorostenci"><span class="checkbox-label">U17 <span class="checkbox-sublabel">Dorostenci</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="U15 / Starší žáci"><span class="checkbox-label">U15 <span class="checkbox-sublabel">Starší žáci</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="U13 / Mladší žáci"><span class="checkbox-label">U13 <span class="checkbox-sublabel">Mladší žáci</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="U11 / Elévové"><span class="checkbox-label">U11 <span class="checkbox-sublabel">Elévové</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Přípravka"><span class="checkbox-label">Přípravka</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Mini přípravka"><span class="checkbox-label">Mini přípravka</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Veteráni"><span class="checkbox-label">Veteráni</span></label>
+          <label class="checkbox-item" style="border-right:none"></label>
+
+          <div class="checkbox-group-title">Ženy</div>
+          <label class="checkbox-item"><input type="checkbox" value="Ženy (G23+)"><span class="checkbox-label">Ženy <span class="checkbox-sublabel">G23+</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="G23"><span class="checkbox-label">G23</span></label>
+          <label class="checkbox-item"><input type="checkbox" value="G19 / Juniorky"><span class="checkbox-label">G19 <span class="checkbox-sublabel">Juniorky</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="G17 / Dorostenky"><span class="checkbox-label">G17 <span class="checkbox-sublabel">Dorostenky</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="G15 / Starší žákyně"><span class="checkbox-label">G15 <span class="checkbox-sublabel">Starší žákyně</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="G13 / Mladší žákyně"><span class="checkbox-label">G13 <span class="checkbox-sublabel">Mladší žákyně</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="G11 / Elévky"><span class="checkbox-label">G11 <span class="checkbox-sublabel">Elévky</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Přípravka (dívky)"><span class="checkbox-label">Přípravka <span class="checkbox-sublabel">dívky</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Mini přípravka (dívky)"><span class="checkbox-label">Mini přípravka <span class="checkbox-sublabel">dívky</span></span></label>
+          <label class="checkbox-item"><input type="checkbox" value="Veteránky"><span class="checkbox-label">Veteránky</span></label>
+          <label class="checkbox-item" style="border-right:none"></label>
+
+          <div class="checkbox-group-title">Ostatní</div>
+          <label class="checkbox-item"><input type="checkbox" value="Smíšené"><span class="checkbox-label">Smíšené</span></label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="jine-check" value="Jiné" onchange="toggleJine(this)">
+            <span class="checkbox-label">Jiné</span>
+          </label>
+
+        </div>
+
+        <div class="jine-wrap" id="jine-wrap">
+          <input type="text" id="jine-text" placeholder="Upřesněte kategorii...">
+        </div>
+      </div>
+
+      <!-- 5. Další info -->
+      <div class="form-section">
+        <div class="section-title"><span class="material-symbols-outlined">payments</span> Další informace</div>
+        <div class="field field-row">
+          <div>
+            <label class="field-label">Startovné <span class="opt">volitelné</span></label>
+            <div style="display:flex;gap:8px">
+              <input type="number" id="startovne" placeholder="např. 1500" style="flex:1;min-width:0">
+              <select id="startovne-mena" style="width:80px;flex-shrink:0">
+                <option value="Kč">Kč</option>
+                <option value="€">€</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="field-label">Web turnaje <span class="opt">volitelné</span></label>
+            <input type="url" id="web" placeholder="https://...">
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Odeslání -->
+      <div class="submit-section">
+        <div class="field" style="margin-bottom:1.25rem">
+          <label class="field-label">Váš email <span class="req">*</span></label>
+          <input type="email" id="email" placeholder="vas@email.cz">
+          <p class="hint">Na tento email vám přijde potvrzovací odkaz. Turnaj se zobrazí po kliknutí na odkaz.</p>
+        </div>
+
+        <div class="email-note">
+          <span class="material-symbols-outlined">info</span>
+          <div class="email-note-text">Turnaj se zobrazí v kalendáři až po potvrzení emailem. Zkontrolujte složku spam, pokud email nepřijde do 5 minut.</div>
+        </div>
+
+        <button class="btn-submit" onclick="submitForm()">
+          <span class="material-symbols-outlined">send</span>
+          Odeslat turnaj
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Success -->
+    <div class="success-screen" id="success-screen">
+      <div class="form-card" style="padding: 3rem 2rem; text-align: center;">
+        <div style="width:64px;height:64px;background:#E8F5E8;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+          <span class="material-symbols-outlined" style="font-size:32px;color:#2A7A2A">check_circle</span>
+        </div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:28px;text-transform:uppercase;margin-bottom:0.75rem;">Turnaj odeslán!</div>
+        <p style="font-size:14px;color:var(--gray-mid);line-height:1.7;max-width:400px;margin:0 auto 2rem;">Zkontrolujte email a klikněte na potvrzovací odkaz. Turnaj se pak zobrazí v kalendáři.</p>
+        <a href="index.html" style="font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--red);text-decoration:none;">← Zpět na hlavní stránku</a>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="site-footer">
+    <p>florbal<span style="color:var(--red)">.</span>app &nbsp;·&nbsp; <a href="contact.html">Kontakt</a></p>
+  </footer>
+
+  <script>
+    const toggleState = { prostredi: 'uvnitr' };
+
+    function setToggle(btn, group) {
+      btn.closest('.toggle-group').querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      toggleState[group] = btn.dataset.val;
+    }
+
+    function toggleJine(cb) {
+      document.getElementById('jine-wrap').classList.toggle('show', cb.checked);
+      if (cb.checked) document.getElementById('jine-text').focus();
+    }
+
+    function getFormat() {
+      return ['format-5','format-4','format-3'].filter(id => document.getElementById(id).checked).map(id => document.getElementById(id).value);
+    }
+
+    function getKategorie() {
+      return [...document.querySelectorAll('.checkbox-grid input[type="checkbox"]:checked')].map(cb => {
+        if (cb.value === 'Jiné') {
+          const txt = document.getElementById('jine-text').value.trim();
+          return txt ? `Jiné: ${txt}` : 'Jiné';
+        }
+        return cb.value;
+      });
+    }
+
+    function markError(id) {
+      const el = document.getElementById(id);
+      el.style.borderColor = 'var(--red)';
+      el.focus();
+      setTimeout(() => el.style.borderColor = '', 2000);
+    }
+
+    function validate() {
+      const required = [
+        { id: 'nazev', label: 'Název turnaje' },
+        { id: 'datum-od', label: 'Datum od' },
+        { id: 'datum-do', label: 'Datum do' },
+        { id: 'mesto', label: 'Město' },
+        { id: 'kraj', label: 'Kraj' },
+        { id: 'email', label: 'Email' },
+      ];
+      for (const f of required) {
+        if (!document.getElementById(f.id).value.trim()) {
+          markError(f.id);
+          alert(`Vyplňte pole: ${f.label}`);
+          return false;
+        }
+      }
+      if (getFormat().length === 0) {
+        alert('Vyberte alespoň jeden formát hry.');
+        return false;
+      }
+      if (getKategorie().length === 0) {
+        alert('Vyberte alespoň jednu kategorii.');
+        return false;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(document.getElementById('email').value)) {
+        markError('email');
+        alert('Zadejte platnou emailovou adresu.');
+        return false;
+      }
+      return true;
+    }
+
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyIZBQMAq1pOWR6UyFt0570b45U0PAJDDgiEP497TOuNvnWUm81DpqtN-cBrBl5IONwug/exec';
+
+    async function submitForm() {
+      if (!validate()) return;
+
+      const btn = document.querySelector('.btn-submit');
+      btn.disabled = true;
+      btn.innerHTML = '<span class="material-symbols-outlined">hourglass_top</span> Odesílám...';
+
+      const data = {
+        nazev:     document.getElementById('nazev').value.trim(),
+        popis:     document.getElementById('popis').value.trim(),
+        datum_od:  document.getElementById('datum-od').value,
+        datum_do:  document.getElementById('datum-do').value,
+        mesto:     document.getElementById('mesto').value.trim(),
+        kraj:      document.getElementById('kraj').value,
+        prostredi: toggleState.prostredi,
+        format:    getFormat().join(', '),
+        kategorie: getKategorie().join(', '),
+        startovne: document.getElementById('startovne').value.trim() ? document.getElementById('startovne').value.trim() + ' ' + document.getElementById('startovne-mena').value + ' / tým' : '',
+        web:       document.getElementById('web').value.trim(),
+        email:     document.getElementById('email').value.trim(),
+      };
+
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        document.getElementById('form-card').style.display = 'none';
+        document.getElementById('success-screen').classList.add('show');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        btn.disabled = false;
+        btn.innerHTML = '<span class="material-symbols-outlined">send</span> Odeslat turnaj';
+        alert('Nepodařilo se odeslat. Zkontroluj připojení a zkus znovu.');
+      }
+    }
+  </script>
+
+</body>
+</html>
